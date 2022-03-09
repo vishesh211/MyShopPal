@@ -1,6 +1,6 @@
 # MyShopPal
 
-<t><img src="images/1646849488535.gif" width="300">                   
+<img src="images/1646849488535.gif" width="300">                   
 
 
 
