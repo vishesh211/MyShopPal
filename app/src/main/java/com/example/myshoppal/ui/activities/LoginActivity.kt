@@ -1,9 +1,11 @@
 package com.example.myshoppal.ui.fragments.activities
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import android.text.TextUtils
+import android.util.Log
 import android.view.View
 import android.view.WindowInsets
 import android.view.WindowManager
@@ -30,9 +32,21 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
         }
 
 
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user != null) {
+            // User is signed in
+            val i = Intent(this@LoginActivity, DashboardActivity::class.java)
+            i.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+            startActivity(i)
+        } else {
+            // User is signed out
+            Log.d(TAG, "onAuthStateChanged:signed_out")
+        }
+
         tv_forgot_password.setOnClickListener(this)
         btn_login.setOnClickListener(this)
         tv_register.setOnClickListener(this)
+
     }
 
     fun userLoggedInSuccess(user:User){
@@ -49,6 +63,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
 
         finish()
     }
+
 
     override fun onClick(view:View?){
         if(view != null){
@@ -99,6 +114,7 @@ class LoginActivity : BaseActivity(), View.OnClickListener {
                 task ->
 
                 if(task.isSuccessful){
+
                     FirestoreClass().userDetails(this)
                 }else{
                     hideProgressDialog()
